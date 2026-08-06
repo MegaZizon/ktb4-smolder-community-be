@@ -208,7 +208,9 @@ public class PostsService {
     /**
      * 게시글 상세 조회 서비스
      */
+    @Transactional
     public GetPostDetailResponseDto getPostDetail(Long postId) {
+        postsStatsRepository.increaseViewCount(postId);
         return postsRepository.findPostDetailById(postId)
                 .orElseThrow(() -> new ApplicationException(POST_INTERNAL_ERROR));
     }
