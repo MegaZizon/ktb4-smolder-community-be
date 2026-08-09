@@ -38,4 +38,5 @@ public class PostsStats {
     public static PostsStats createPostsStats(Posts post){
         return new PostsStats(post,0L,0L,0L);
     }
+
 }

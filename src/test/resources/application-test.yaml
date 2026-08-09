@@ -18,6 +18,10 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  redis:
+    host: localhost
+    port: 6379
+
 jwt:
   access-token-expired-seconds: 3600
   refresh-token-expired-seconds: 604800

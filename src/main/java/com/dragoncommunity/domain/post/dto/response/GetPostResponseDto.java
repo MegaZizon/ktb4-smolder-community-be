@@ -1,5 +1,6 @@
 package com.dragoncommunity.domain.post.dto.response;
 
+import com.dragoncommunity.domain.post.dto.PostDetailDto;
 import com.dragoncommunity.domain.post.dto.PostInfoDto;
 
 import java.util.List;

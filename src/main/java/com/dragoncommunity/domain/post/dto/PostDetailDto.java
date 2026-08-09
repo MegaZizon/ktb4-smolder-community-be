@@ -1,26 +1,28 @@
-package com.dragoncommunity.domain.post.dto.response;
+package com.dragoncommunity.domain.post.dto;
 
 import com.dragoncommunity.common.util.FileUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-public record GetPostDetailResponseDto(
-        Long postId,
-        String nickname,
-        String title,
-        String content,
-        Long viewCount,
-        Long likeCount,
-        Long commentCount,
-        String postImageUrl,
-        LocalDateTime updatedAt
-) {
-    public GetPostDetailResponseDto(
+@Getter
+public class PostDetailDto {
+    private final Long postId;
+    private final String nickname;
+    private final String title;
+    private final String content;
+    private final Long likeCount;
+    private final Long commentCount;
+    private final String postImageUrl;
+    private final LocalDateTime updatedAt;
+    @Setter
+    private Long viewCount;
+    public PostDetailDto(
             Long postId,
             String nickname,
             String title,
             String content,
-            Long viewCount,
             Long likeCount,
             Long commentCount,
             String postImageUrl,
@@ -29,7 +31,6 @@ public record GetPostDetailResponseDto(
         this.nickname = nickname;
         this.title = title;
         this.content = content;
-        this.viewCount = viewCount;
         this.likeCount = likeCount;
         this.commentCount = commentCount;
         this.postImageUrl = postImageUrl != null ? FileUtil.toFullUrl(postImageUrl) : null;
