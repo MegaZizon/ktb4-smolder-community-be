@@ -25,4 +25,15 @@ public interface PostsStatsRepository extends JpaRepository<PostsStats, Posts> {
     Optional<PostsStats> findByPostId(Long postId);
 
     Optional<PostsStats> findViewCountByPostId(Long postId);
+
+    @Modifying
+    @Query("""
+        UPDATE PostsStats ps
+        SET ps.viewCount = :viewCount
+        WHERE ps.postId = :postId
+    """)
+    int updateViewCount(
+            @Param("postId") Long postId,
+            @Param("viewCount") Long viewCount
+    );
 }
