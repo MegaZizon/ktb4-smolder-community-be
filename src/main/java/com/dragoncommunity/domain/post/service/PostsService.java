@@ -4,11 +4,11 @@ import com.dragoncommunity.common.exception.ApplicationException;
 import com.dragoncommunity.common.util.FileUtil;
 import com.dragoncommunity.domain.image.model.Images;
 import com.dragoncommunity.domain.image.repository.ImagesRepository;
-import com.dragoncommunity.domain.post.dto.PostDetailDto;
 import com.dragoncommunity.domain.post.dto.PostInfoDto;
 import com.dragoncommunity.domain.post.dto.request.CreatePostRequestDto;
 import com.dragoncommunity.domain.post.dto.request.GetPostsRequestDto;
 import com.dragoncommunity.domain.post.dto.request.ModifyPostRequestDto;
+import com.dragoncommunity.domain.post.dto.response.GetPostDetailResponseDto;
 import com.dragoncommunity.domain.post.dto.response.GetPostResponseDto;
 import com.dragoncommunity.domain.post.model.Posts;
 import com.dragoncommunity.domain.post.model.PostsImages;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.dragoncommunity.common.exception.enums.ApplicationErrorCode.*;
-import static com.dragoncommunity.domain.post.constant.PostConstant.*;
+import static com.dragoncommunity.domain.post.constant.PostConstant.DEFAULT_POST_GET_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +45,6 @@ public class PostsService {
     private final PostsStatsRepository postsStatsRepository;
     private final ImagesRepository imagesRepository;
     private final FileManager fileManager;
-    private final PostsCacheService postsCacheService;
 
     /**
      * 게시글 등록 서비스
@@ -210,13 +209,9 @@ public class PostsService {
      * 게시글 상세 조회 서비스
      */
     @Transactional
-    public PostDetailDto getPostDetail(Long postId) {
-        Long viewCount = postsCacheService.increaseViewCount(postId);
-
-        PostDetailDto dto = postsCacheService.getPostDetailById(postId);
-
-        dto.setViewCount(viewCount);
-
-        return dto;
+    public GetPostDetailResponseDto getPostDetail(Long postId) {
+        postsStatsRepository.increaseViewCount(postId);
+        return postsRepository.findPostDetailById(postId)
+                .orElseThrow(() -> new ApplicationException(POST_INTERNAL_ERROR));
     }
 }

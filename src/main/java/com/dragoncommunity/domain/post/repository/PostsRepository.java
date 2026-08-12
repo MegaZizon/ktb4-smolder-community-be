@@ -1,7 +1,7 @@
 package com.dragoncommunity.domain.post.repository;
 
-import com.dragoncommunity.domain.post.dto.PostDetailDto;
 import com.dragoncommunity.domain.post.dto.PostInfoDto;
+import com.dragoncommunity.domain.post.dto.response.GetPostDetailResponseDto;
 import com.dragoncommunity.domain.post.model.Posts;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -38,9 +38,9 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
 
     Optional<Posts> findByPostId(Long postId);
 
-    @Query("SELECT new com.dragoncommunity.domain.post.dto.PostDetailDto(" +
+    @Query("SELECT new com.dragoncommunity.domain.post.dto.response.GetPostDetailResponseDto(" +
             "       p.postId, u.nickname, p.title, p.content, " +
-            "       s.likeCount, s.commentCount, " +
+            "       s.viewCount, s.likeCount, s.commentCount, " +
             "       img.imageUrl, p.updatedAt) " +
             "FROM Posts p " +
             "JOIN p.user u " +
@@ -48,5 +48,5 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
             "LEFT JOIN PostsImages pi ON p.postId = pi.post.postId " + // 이미지가 없을 수 있으므로 LEFT JOIN
             "LEFT JOIN pi.image img " +                             // 이미지 URL을 가져오기 위한 LEFT JOIN
             "WHERE p.postId = :postId AND p.deletedAt IS NULL")      // SoftDelete 조건 반영
-    Optional<PostDetailDto> findPostDetailById(@Param("postId") Long postId);
+    Optional<GetPostDetailResponseDto> findPostDetailById(@Param("postId") Long postId);
 }

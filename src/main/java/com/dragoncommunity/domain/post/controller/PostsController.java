@@ -5,7 +5,7 @@ import com.dragoncommunity.common.util.SecurityContextUtil;
 import com.dragoncommunity.domain.post.dto.request.CreatePostRequestDto;
 import com.dragoncommunity.domain.post.dto.request.GetPostsRequestDto;
 import com.dragoncommunity.domain.post.dto.request.ModifyPostRequestDto;
-import com.dragoncommunity.domain.post.dto.PostDetailDto;
+import com.dragoncommunity.domain.post.dto.response.GetPostDetailResponseDto;
 import com.dragoncommunity.domain.post.dto.response.GetPostResponseDto;
 import com.dragoncommunity.domain.post.service.PostsService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,7 +67,7 @@ public class PostsController {
      * 게시글 상세 조회  API
      */
     @GetMapping("/{post_id}")
-    public ResponseEntity<ApiResponse<PostDetailDto>> getPostDetail(@PathVariable("post_id") Long postId){
+    public ResponseEntity<ApiResponse<GetPostDetailResponseDto>> getPostDetail(@PathVariable("post_id") Long postId){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.of(POST_DETAIL_LOAD_SUCCESS, postsService.getPostDetail(postId)));
